@@ -26,23 +26,3 @@ function getCoordinatesAtBearing(lat, lon, distanceMiles, bearingDegrees) {
 }
 
 export { getCoordinatesAtBearing };
-
-const centerLat = 39.9575;
-const centerLon = -82.9918;
-const distance = 30; // miles
-
-const directions = [
-    { name: 'N', bearing: 0 },
-    { name: 'NE', bearing: 45 },
-    { name: 'E', bearing: 90 },
-    { name: 'SE', bearing: 135 },
-    { name: 'S', bearing: 180 },
-    { name: 'SW', bearing: 225 },
-    { name: 'W', bearing: 270 },
-    { name: 'NW', bearing: 315 }
-];
-
-const surroundingPoints = directions.map(dir => ({
-    ...dir,
-    ...getCoordinatesAtBearing(centerLat, centerLon, distance, dir.bearing)
-}));
