@@ -2,14 +2,15 @@ import express from 'express';
 
 const app = express();
 const PORT = 3000;
-
 // Open-Meteo API URL for Columbus, OH
 const baseUrl = 'https://api.open-meteo.com/v1/forecast';
 const queryParams = new URLSearchParams({
     latitude: '39.9575',
     longitude: '-82.9918',
-    current: 'apparent_temperature',
-    temperature_unit: 'fahrenheit'
+    current: [ 'apparent_temperature', 'precipitation' ].join(','),
+    temperature_unit: 'fahrenheit',
+    precipitation_unit: 'inch'
+
 });
 const weatherUrl = `${baseUrl}?${queryParams.toString()}`;
 
@@ -19,10 +20,12 @@ app.get('/', async (req, res) => {
         if (!response.ok) {
             throw new Error(`Weather API error: ${response.status}`);
         }
+        
         const data = await response.json();
         const feelsLike = data.current.apparent_temperature;
+        const rawPrecip = data.current.precipitation;
+        const isRaining = rawPrecip > 0 ? 'Yes' : 'No';
 
-        // Simple HTML output for our Step 1 MVP
         res.send(`
             <!DOCTYPE html>
             <html lang="en">
@@ -41,6 +44,11 @@ app.get('/', async (req, res) => {
                     <p>Current Feels Like</p>
                     <h1>${feelsLike}°F</h1>
                 </div>
+                <div class="card">
+                    <p>Currently Raining</p>
+                    <h1>${isRaining}</h1>
+                </div>
+                
             </body>
             </html>
         `);
