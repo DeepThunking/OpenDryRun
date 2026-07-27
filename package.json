@@ -1,0 +1,8 @@
+{
+  "name": "opendryrun",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "openmeteo": "^1.2.3"
+  }
+}
