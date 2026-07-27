@@ -2,7 +2,7 @@ import express from 'express';
 import { getCoordinatesAtBearing } from './utils/weatherMath.js';
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Open-Meteo API Base URL
 const baseUrl = 'https://api.open-meteo.com/v1/forecast';
