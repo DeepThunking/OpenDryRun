@@ -5,5 +5,6 @@ const router = express.Router();
 const weatherController = createWeatherController();
 
 router.get('/', weatherController.getWeatherPage);
+router.get('/suggest-locations', weatherController.getLocationSuggestions);
 
 export default router;
