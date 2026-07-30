@@ -1,5 +1,5 @@
 import { buildLocationPoints, WEATHER_BASE_URL } from '../config/weatherConfig.js';
-import { resolveLocation } from '../services/locationService.js';
+import { resolveLocation, suggestLocations } from '../services/locationService.js';
 import { fetchWeatherSummary } from '../services/weatherService.js';
 import { renderLocationForm } from '../views/locationFormView.js';
 import { renderWeatherPage } from '../views/weatherView.js';
@@ -37,6 +37,16 @@ function createWeatherController() {
       } catch (error) {
         console.error('Failed to fetch weather:', error);
         res.status(400).send(renderLocationForm(error.message));
+      }
+    },
+
+    async getLocationSuggestions(req, res) {
+      try {
+        const suggestions = await suggestLocations(req.query.query);
+        res.json(suggestions);
+      } catch (error) {
+        console.error('Failed to fetch location suggestions:', error);
+        res.status(400).json({ error: error.message });
       }
     }
   };
